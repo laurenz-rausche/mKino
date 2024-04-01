@@ -9,8 +9,11 @@ import config
 # config
 CONFIG = config.load()
 
+# previous averages storage
+previousAverages = [None] * 512
+
 # create DMX controller
-controller = serial.Serial(CONFIG["COMPORT"], 9600)
+controller = serial.Serial(CONFIG["COMPORT"], 115200)
 
 # create and config video capture
 capture = opencv.VideoCapture(CONFIG["CAPTUREDEVICE"])
@@ -56,8 +59,15 @@ while status:
 
             # send RGB Averages to controller
             for dmxAdder in range(0, 3):
-                # print("{0}c{1}v".format(, dmxChannel + dmxAdder, int(rgbAverage[dmxAdder])))
-                controller.write("{0}c{1}v".format(dmxChannel + dmxAdder, int(rgbAverage[dmxAdder])).encode())
+                # calculate channel and value
+                channel = dmxChannel + dmxAdder
+                value = int(rgbAverage[dmxAdder])
+
+                # update values if values changed
+                if previousAverages[channel] != value:
+                    controller.write("{0}c{1}v".format(
+                        channel, value).encode())
+                    previousAverages[channel] = value
 
     # exit on ESC
     if opencv.waitKey(20) == 27:
