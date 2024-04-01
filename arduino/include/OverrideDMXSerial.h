@@ -1,0 +1,1 @@
+#define DMX_USE_PORT1 // use Serial1 for communication with DMX-Shield, so Serial can be used for PC-Communication.
