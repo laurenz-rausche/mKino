@@ -67,7 +67,7 @@ void loop()
       {
         value = 0;
       }
-      
+
       // update value
       else
       {
