@@ -39,4 +39,4 @@ def dmxChannel(rows, cols, cRow, cCol):
     cCol += 1
 
     # calculate DMX channel
-    return (cols * (cRow - 1) + cCol) * 3 - 2
+    return (cols * (cRow - 1) + cCol) * 4 - 3
